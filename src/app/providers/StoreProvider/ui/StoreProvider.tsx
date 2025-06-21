@@ -1,17 +1,12 @@
-import {PropsWithChildren} from "react";
-import {StoreContext, TStoreContext} from "@/shared/stores/lib/storeContext.ts";
-import {CounterStore} from "@/shared/stores/models/CounterStore.ts";
+import { PropsWithChildren } from 'react';
+import { StoreContext, TStoreContext } from '@/shared/stores/lib/storeContext';
 
 export const StoreProvider = (props: PropsWithChildren) => {
-  const {children} = props;
+  const { children } = props;
 
-  const value: TStoreContext = {
-    counter: new CounterStore(),
-  }
+  const value: TStoreContext = {};
 
   return (
-    <StoreContext.Provider value={value}>
-      {children}
-    </StoreContext.Provider>
-  )
-}
+    <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
+  );
+};

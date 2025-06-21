@@ -1,9 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
-import { CheckMark } from '@/shared/ui/CheckMark.tsx';
-import { TodoDTO } from '@/shared/http/todo/getTodos.ts';
-import { TodoStatus } from '@/feature/todo-card/ui/TodoStatus.tsx';
+import { TodoStatus } from './TodoStatus';
+import { CheckMark } from '@/shared/ui/CheckMark';
+import { TodoDTO } from '@/shared/http/todo/getTodos';
 import { Date } from '@/entity/date';
+import { useTheme } from '@/shared/theme/useTheme';
 
 type TodoCardProps = {
   data: Partial<TodoDTO>;
@@ -14,6 +15,8 @@ type TodoCardProps = {
 export const TodoCard = (props: TodoCardProps) => {
   const { data, onPress, onLongPress } = props;
 
+  const { colors } = useTheme();
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -22,12 +25,26 @@ export const TodoCard = (props: TodoCardProps) => {
       onLongPress={onLongPress}
     >
       <View style={styles.content}>
-        <Text style={styles.title}>{data.title ?? 'Задача'}</Text>
+        <Text
+          style={[
+            styles.title,
+            {
+              color: colors.text,
+            },
+          ]}
+        >
+          {data.title ?? 'Задача'}
+        </Text>
         {data.description && (
           <Text
             numberOfLines={1}
             ellipsizeMode={'tail'}
-            style={styles.description}
+            style={[
+              styles.description,
+              {
+                color: colors.description,
+              },
+            ]}
           >
             {data.description}
           </Text>

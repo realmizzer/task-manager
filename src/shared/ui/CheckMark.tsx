@@ -1,5 +1,6 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { CheckMarkIcon } from '@/shared/ui/icons/CheckMarkIcon.tsx';
+import { CheckMarkIcon } from '@/shared/ui/icons/CheckMarkIcon';
+import { useTheme } from '@/shared/theme/useTheme';
 
 const SIZE = 32;
 
@@ -8,10 +9,10 @@ type CheckMarkProps = {
   onPress?(): void;
 };
 
-const color = '#81c55c';
-
 export const CheckMark = (props: CheckMarkProps) => {
   const { checked, onPress } = props;
+
+  const { colors } = useTheme();
 
   return (
     <TouchableOpacity
@@ -20,7 +21,8 @@ export const CheckMark = (props: CheckMarkProps) => {
       style={[
         styles.container,
         {
-          backgroundColor: checked ? color : 'transparent',
+          backgroundColor: checked ? colors.success : 'transparent',
+          borderColor: colors.success,
         },
       ]}
     >
@@ -34,7 +36,6 @@ const styles = StyleSheet.create({
     width: SIZE,
     height: SIZE,
     borderRadius: SIZE / 2,
-    borderColor: color,
     borderWidth: 2,
     padding: 4,
   },

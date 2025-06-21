@@ -1,8 +1,5 @@
-import {createContext} from "react";
-import {CounterStore} from "../models/CounterStore";
+import { createContext } from 'react';
 
-export type TStoreContext = {
-  counter: CounterStore;
-}
+export type TStoreContext = {};
 
 export const StoreContext = createContext<TStoreContext | null>(null);
