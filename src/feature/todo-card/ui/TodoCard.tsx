@@ -1,26 +1,41 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import { TodoStatus } from './TodoStatus';
+import { Date } from '@/entity/date';
 import { CheckMark } from '@/shared/ui/CheckMark';
 import { TodoDTO } from '@/shared/http/todo/getTodos';
-import { Date } from '@/entity/date';
 import { useTheme } from '@/shared/theme/useTheme';
 
+type PartialTodoDTO = Partial<TodoDTO>;
+
 type TodoCardProps = {
-  data: Partial<TodoDTO>;
-  onPress?(): void;
-  onLongPress?(): void;
+  data: PartialTodoDTO;
+  onPress?(todo: PartialTodoDTO): void;
+  onLongPress?(todo: PartialTodoDTO): void;
 };
 
 export const TodoCard = (props: TodoCardProps) => {
-  const { data, onPress, onLongPress } = props;
+  const { data } = props;
 
   const { colors } = useTheme();
+
+  const onPress = () => {
+    props.onPress?.(data);
+  };
+
+  const onLongPress = () => {
+    props.onLongPress?.(data);
+  };
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          backgroundColor: colors.card,
+        },
+      ]}
       onPress={onPress}
       onLongPress={onLongPress}
     >

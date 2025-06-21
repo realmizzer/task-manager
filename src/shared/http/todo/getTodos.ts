@@ -8,3 +8,12 @@ export type TodoDTO = {
   until: string;
   completed: boolean;
 };
+
+export const TODO_DEFAULT: TodoDTO = {
+  title: '',
+  description: '',
+  importance: 'default',
+  createdAt: Date.now().toString(),
+  until: Date.now().toString(),
+  completed: false,
+};
