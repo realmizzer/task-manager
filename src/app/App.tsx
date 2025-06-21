@@ -1,7 +1,10 @@
-import {Text} from "react-native";
+import {StoreProvider} from "@/app/providers/StoreProvider";
+import {HomeScreen} from "@/screens/home";
 
 export default function App() {
   return (
-    <Text>text</Text>
+    <StoreProvider>
+      <HomeScreen />
+    </StoreProvider>
   );
 }
