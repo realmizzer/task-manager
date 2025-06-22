@@ -142,7 +142,9 @@ export const HomeScreen = observer(() => {
             icon={
               <ExclamationMarkIcon
                 color={
-                  activeFilter === 'important' ? colors.white : colors.black
+                  activeFilter === 'important'
+                    ? colors.white
+                    : colors.description
                 }
               />
             }
@@ -155,7 +157,9 @@ export const HomeScreen = observer(() => {
             icon={
               <TodoIcon
                 color={
-                  activeFilter === 'uncompleted' ? colors.white : colors.black
+                  activeFilter === 'uncompleted'
+                    ? colors.white
+                    : colors.description
                 }
               />
             }
