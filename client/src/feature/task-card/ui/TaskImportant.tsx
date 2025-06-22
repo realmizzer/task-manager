@@ -1,19 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { getTodoImportanceName } from '../lib/getTodoImportanceName.ts';
-import { TodoImportance } from '@/shared/http/todo/getTodos.ts';
 import { ExclamationMarkIcon } from '@/shared/ui/icons/ExclamationMarkIcon.tsx';
 import { useTheme } from '@/shared/theme/useTheme.ts';
 
-type TodoStatusProps = {
-  importance: TodoImportance;
-};
+type TodoStatusProps = {};
 
-export const TodoStatus = (props: TodoStatusProps) => {
-  const { importance } = props;
+export const TaskImportant = (props: TodoStatusProps) => {
+  const {} = props;
 
   const { colors } = useTheme();
-
-  if (importance === 'default') return null;
 
   return (
     <View style={styles.container}>
@@ -28,7 +22,7 @@ export const TodoStatus = (props: TodoStatusProps) => {
           },
         ]}
       >
-        {getTodoImportanceName(importance).toUpperCase()}
+        ВАЖНО
       </Text>
     </View>
   );

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { observer } from 'mobx-react';
@@ -7,56 +7,24 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import { AddTodoBottomSheet } from './AddTodoBottomSheet';
 import { TodoActionsBottomSheet } from './TodoActionsBottomSheet';
 import { TodoFilter } from './TodoFilter';
-import { TodoCard } from '@/feature/todo-card';
+import { TaskCard } from '@/feature/task-card';
+import { TaskDTO } from '@/shared/api/tasks/types.ts';
 import { useTheme } from '@/shared/theme/useTheme';
-import { TodoDTO } from '@/shared/http/todo/getTodos';
 import { PlusIcon } from '@/shared/ui/icons/PlusIcon';
 import { isIOS } from '@/shared/helpers/isIOS';
-import { ExclamationMarkIcon } from '@/shared/ui/icons/ExclamationMarkIcon.tsx';
-import { TodoIcon } from '@/shared/ui/icons/TodoIcon.tsx';
-
-const mock: TodoDTO[] = [
-  {
-    title: 'Написать серверную часть',
-    description: 'Express.js + MongoDB',
-    importance: 'important',
-    createdAt: '6/21/2025',
-    until: '6/21/2025 17:00:00',
-    completed: false,
-  },
-  {
-    title: 'Сверстать карточку todo',
-    description: '',
-    importance: 'important',
-    createdAt: '02.01.2025',
-    until: '6/21/2025 17:00:00',
-    completed: true,
-  },
-  {
-    title: 'Добавить фильтры',
-    description: 'Для todo сделать фильтры: "Важные", "Обычные" и "Все',
-    importance: 'default',
-    createdAt: '02.01.2025',
-    until: '6/21/2025 17:00:00',
-    completed: false,
-  },
-  {
-    title: 'CRUD',
-    description: 'Редактирование и удаление todo',
-    importance: 'default',
-    createdAt: '02.01.2025',
-    until: '6/21/2025 17:00:00',
-    completed: true,
-  },
-];
+import { ExclamationMarkIcon } from '@/shared/ui/icons/ExclamationMarkIcon';
+import { TodoIcon } from '@/shared/ui/icons/TodoIcon';
+import { useStores } from '@/entity/stores/lib/useStores.ts';
 
 export const HomeScreen = observer(() => {
-  const { colors } = useTheme();
-
-  const [selectedTodo, setSelectedTodo] = useState<TodoDTO>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedTodo, setSelectedTodo] = useState<TaskDTO>();
 
   const addTodoRef = useRef<BottomSheet>(null);
   const todoActionsRef = useRef<BottomSheet>(null);
+
+  const { colors } = useTheme();
+  const { tasks } = useStores();
 
   // === Create a task button ===
   const onPressAddTodo = () => {
@@ -64,7 +32,7 @@ export const HomeScreen = observer(() => {
   };
 
   // === Card Actions ===
-  const onLongPress = (todo: TodoDTO) => {
+  const onLongPress = (todo: TaskDTO) => {
     setSelectedTodo(todo);
     todoActionsRef.current?.expand();
   };
@@ -88,6 +56,10 @@ export const HomeScreen = observer(() => {
 
   const onPressDefaultFilter = () => {};
 
+  useEffect(() => {
+    tasks.getAllTasks().finally(() => setIsLoading(false));
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.container}>
@@ -106,9 +78,9 @@ export const HomeScreen = observer(() => {
           />
         </View>
         <FlashList
-          data={mock}
+          data={tasks.tasks}
           renderItem={({ item }) => (
-            <TodoCard onLongPress={onLongPress} data={item} />
+            <TaskCard onLongPress={onLongPress} data={item} />
           )}
           ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
         />

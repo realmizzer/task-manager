@@ -1,12 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
-import { TodoStatus } from './TodoStatus';
+import { TaskImportant } from './TaskImportant.tsx';
 import { Date } from '@/entity/date';
 import { CheckMark } from '@/shared/ui/CheckMark';
-import { TodoDTO } from '@/shared/http/todo/getTodos';
 import { useTheme } from '@/shared/theme/useTheme';
+import { TaskDTO } from '@/shared/api/tasks/types';
 
-type PartialTodoDTO = Partial<TodoDTO>;
+type PartialTodoDTO = Partial<TaskDTO>;
 
 type TodoCardProps = {
   data: PartialTodoDTO;
@@ -14,7 +14,7 @@ type TodoCardProps = {
   onLongPress?(todo: PartialTodoDTO): void;
 };
 
-export const TodoCard = (props: TodoCardProps) => {
+export const TaskCard = (props: TodoCardProps) => {
   const { data } = props;
 
   const { colors } = useTheme();
@@ -65,11 +65,11 @@ export const TodoCard = (props: TodoCardProps) => {
           </Text>
         )}
         <View style={styles.additional}>
-          {data.importance && <TodoStatus importance={data.importance} />}
+          {data.isImportant && <TaskImportant />}
           {data.until && <Date date={data.until} />}
         </View>
       </View>
-      <CheckMark checked={data.completed ?? false} />
+      <CheckMark checked={data.isCompleted ?? false} />
     </TouchableOpacity>
   );
 };

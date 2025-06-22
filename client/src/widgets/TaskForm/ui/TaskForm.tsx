@@ -4,71 +4,78 @@ import { LabelInput } from '@/shared/ui/LabelInput';
 import { Button } from '@/shared/ui/Button';
 import { PlusIcon } from '@/shared/ui/icons/PlusIcon';
 import { useTheme } from '@/shared/theme/useTheme';
-import { TODO_DEFAULT, TodoDTO } from '@/shared/http/todo/getTodos';
 import { ExclamationMarkIcon } from '@/shared/ui/icons/ExclamationMarkIcon';
+import { TaskDTO } from '@/shared/api/tasks/types';
+import { TASK_DEFAULT } from '@/shared/api/tasks/mocks.ts';
+import { observer } from 'mobx-react';
+import { useStores } from '@/entity/stores';
 
-type TodoFormProps = {
-  data?: TodoDTO;
+type TaskFormProps = {
+  data?: TaskDTO;
   onCreate?(): void;
   onCancel?(): void;
 };
 
-export const TodoForm = (props: TodoFormProps) => {
-  const { data, onCreate, onCancel } = props;
+export const TaskForm = observer((props: TaskFormProps) => {
+  const {data, onCancel} = props;
 
-  const { colors } = useTheme();
+  const [task, setTask] = useState<TaskDTO>(data ?? TASK_DEFAULT);
 
-  const [todo, setTodo] = useState<TodoDTO>(data ?? TODO_DEFAULT);
-
-  const isImportant = todo.importance === 'important';
+  const {colors} = useTheme();
+  const {tasks} = useStores();
 
   const onChangeTitle = (text: string) => {
-    setTodo(prev => ({ ...prev, title: text }));
+    setTask(prev => ({...prev, title: text}));
   };
 
   const onChangeDescription = (text: string) => {
-    setTodo(prev => ({ ...prev, description: text }));
+    setTask(prev => ({...prev, description: text}));
   };
 
   const onPressImportance = () => {
-    setTodo(prev => ({
+    setTask(prev => ({
       ...prev,
-      importance: prev.importance === 'important' ? 'default' : 'important',
+      isImportant: !prev.isImportant,
     }));
   };
 
+  const onCreate = async () => {
+    await tasks.addTask(task);
+    props.onCreate?.();
+  }
+
   useEffect(() => {
-    setTodo(data ?? TODO_DEFAULT);
+    setTask(data ?? TASK_DEFAULT);
   }, [data]);
 
   return (
     <View style={styles.container}>
       <LabelInput
         label={'Title'}
-        value={todo?.title}
+        value={task?.title}
         onChangeText={onChangeTitle}
       />
       <LabelInput
         multiline
         label={'Description'}
-        value={todo?.description}
+        value={task?.description}
         onChangeText={onChangeDescription}
       />
       <Button
         text={'Important'}
         containerStyle={{
-          backgroundColor: isImportant ? colors.primary : 'transparent',
+          backgroundColor: task.isImportant ? colors.primary : 'transparent',
           borderColor: colors.primary,
           borderWidth: 2,
         }}
         textStyle={{
-          color: isImportant ? colors.white : colors.primary,
+          color: task.isImportant ? colors.white : colors.primary,
         }}
         onPress={onPressImportance}
       >
-        <View style={{ width: 30, height: 30 }}>
+        <View style={{width: 30, height: 30}}>
           <ExclamationMarkIcon
-            color={isImportant ? colors.white : colors.primary}
+            color={task.isImportant ? colors.white : colors.primary}
           />
         </View>
       </Button>
@@ -80,8 +87,8 @@ export const TodoForm = (props: TodoFormProps) => {
           }}
           onPress={onCancel}
         >
-          <View style={{ width: 30, height: 30 }}>
-            <PlusIcon color={colors.white} />
+          <View style={{width: 30, height: 30}}>
+            <PlusIcon color={colors.white}/>
           </View>
         </Button>
 
@@ -92,14 +99,14 @@ export const TodoForm = (props: TodoFormProps) => {
           }}
           onPress={onCreate}
         >
-          <View style={{ width: 30, height: 30 }}>
-            <PlusIcon color={colors.white} />
+          <View style={{width: 30, height: 30}}>
+            <PlusIcon color={colors.white}/>
           </View>
         </Button>
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

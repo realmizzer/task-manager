@@ -1,13 +1,13 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import { TodoForm } from '@/widgets/TodoForm';
+import { TaskForm } from 'src/widgets/TaskForm';
 import { isIOS } from '@/shared/helpers/isIOS';
 import { useTheme } from '@/shared/theme/useTheme';
-import { TodoDTO } from '@/shared/http/todo/getTodos';
+import { TaskDTO } from '@/shared/api/tasks/types';
 
 type AddTodoBottomSheetProps = {
-  data?: TodoDTO;
+  data?: TaskDTO;
   onClose?(): void;
 };
 
@@ -51,7 +51,7 @@ export const AddTodoBottomSheet = forwardRef<
           },
         ]}
       >
-        <TodoForm data={data} onCreate={onCreate} />
+        <TaskForm data={data} onCreate={onCreate} />
       </BottomSheetView>
     </BottomSheet>
   );
