@@ -13,6 +13,7 @@ WebStorm IDE 2024.1.2
 ## Installation
 
 - Clone the Project
+- Run these commands in the `client` folder: `npm install` `cd ios && bundle exec pod install`
 - Duplicate the `.env.example` file and rename it into `.env`
 - Fill the `API_URL` field in it (`localhost:3031`, for example)
 - Run the `npm run start` command in the `client` folder
