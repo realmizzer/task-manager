@@ -31,7 +31,10 @@ const Task = mongoose.model('Task', taskSchema);
 
 // Get all tasks
 app.get('/api/tasks', async (req, res) => {
-  const tasks = await Task.find();
+  const tasks = await Task.find().sort({
+    isImportant: -1,
+    createdAt: 1
+  });
   res.send(tasks);
 });
 
