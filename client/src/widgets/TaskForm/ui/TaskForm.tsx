@@ -17,19 +17,19 @@ type TaskFormProps = {
 };
 
 export const TaskForm = observer((props: TaskFormProps) => {
-  const {data, onCancel} = props;
+  const { data, onCancel } = props;
 
   const [task, setTask] = useState<TaskDTO>(data ?? TASK_DEFAULT);
 
-  const {colors} = useTheme();
-  const {tasks} = useStores();
+  const { colors } = useTheme();
+  const { tasks } = useStores();
 
   const onChangeTitle = (text: string) => {
-    setTask(prev => ({...prev, title: text}));
+    setTask(prev => ({ ...prev, title: text }));
   };
 
   const onChangeDescription = (text: string) => {
-    setTask(prev => ({...prev, description: text}));
+    setTask(prev => ({ ...prev, description: text }));
   };
 
   const onPressImportance = () => {
@@ -42,7 +42,7 @@ export const TaskForm = observer((props: TaskFormProps) => {
   const onCreate = async () => {
     await tasks.addTask(task);
     props.onCreate?.();
-  }
+  };
 
   useEffect(() => {
     setTask(data ?? TASK_DEFAULT);
@@ -73,7 +73,7 @@ export const TaskForm = observer((props: TaskFormProps) => {
         }}
         onPress={onPressImportance}
       >
-        <View style={{width: 30, height: 30}}>
+        <View style={{ width: 30, height: 30 }}>
           <ExclamationMarkIcon
             color={task.isImportant ? colors.white : colors.primary}
           />
@@ -81,26 +81,14 @@ export const TaskForm = observer((props: TaskFormProps) => {
       </Button>
       <View style={styles.actions}>
         <Button
-          text={'Cancel'}
-          containerStyle={{
-            backgroundColor: colors.fail,
-          }}
-          onPress={onCancel}
-        >
-          <View style={{width: 30, height: 30}}>
-            <PlusIcon color={colors.white}/>
-          </View>
-        </Button>
-
-        <Button
           text={'Create'}
           containerStyle={{
             backgroundColor: colors.success,
           }}
           onPress={onCreate}
         >
-          <View style={{width: 30, height: 30}}>
-            <PlusIcon color={colors.white}/>
+          <View style={{ width: 30, height: 30 }}>
+            <PlusIcon color={colors.white} />
           </View>
         </Button>
       </View>
@@ -117,6 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     gap: 8,
-    marginTop: 32,
+    // marginTop: 32,
   },
 });

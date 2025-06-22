@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import { TaskImportant } from './TaskImportant.tsx';
-import { Date } from '@/entity/date';
+import { DateTime } from 'src/entity/DateTime';
 import { CheckMark } from '@/shared/ui/CheckMark';
 import { useTheme } from '@/shared/theme/useTheme';
 import { TaskDTO } from '@/shared/api/tasks/types';
@@ -66,7 +66,7 @@ export const TaskCard = (props: TodoCardProps) => {
         )}
         <View style={styles.additional}>
           {data.isImportant && <TaskImportant />}
-          {data.until && <Date date={data.until} />}
+          {data.until && <DateTime date={data.until} />}
         </View>
       </View>
       <CheckMark checked={data.isCompleted ?? false} />

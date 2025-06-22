@@ -4,13 +4,15 @@ import { ClockIcon } from '@/shared/ui/icons/ClockIcon';
 import { useTheme } from '@/shared/theme/useTheme';
 
 type DateProps = {
-  date: string;
+  date: number;
 };
 
-export const Date = (props: DateProps) => {
+export const DateTime = (props: DateProps) => {
   const { date } = props;
 
   const { colors } = useTheme();
+
+  const formattedDate = new Date(Number(date)).toLocaleString();
 
   return (
     <View style={styles.container}>
@@ -25,7 +27,7 @@ export const Date = (props: DateProps) => {
           },
         ]}
       >
-        {date}
+        {formattedDate}
       </Text>
     </View>
   );

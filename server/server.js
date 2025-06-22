@@ -20,8 +20,8 @@ const taskSchema = new mongoose.Schema({
   id: Number,
   title: String,
   description: String,
-  createdAt: String,
-  until: String,
+  createdAt: Number,
+  until: Number,
   isImportant: Boolean,
   isCompleted: Boolean,
 });

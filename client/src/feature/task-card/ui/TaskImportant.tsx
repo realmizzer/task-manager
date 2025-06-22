@@ -22,7 +22,7 @@ export const TaskImportant = (props: TodoStatusProps) => {
           },
         ]}
       >
-        ВАЖНО
+        {'Important'.toUpperCase()}
       </Text>
     </View>
   );

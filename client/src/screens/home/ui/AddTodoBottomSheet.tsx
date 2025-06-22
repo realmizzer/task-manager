@@ -23,7 +23,9 @@ export const AddTodoBottomSheet = forwardRef<
 
   const bottomSheet = useRef<BottomSheet>(null);
 
-  const onCreate = () => {};
+  const onCreate = () => {
+    bottomSheet.current?.close();
+  };
 
   const onChange = (i: number) => {
     if (i === -1) onClose?.();
