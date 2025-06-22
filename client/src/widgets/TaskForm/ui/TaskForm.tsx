@@ -12,12 +12,13 @@ import { useStores } from '@/entity/stores';
 
 type TaskFormProps = {
   data?: TaskDTO;
+  isEditing?: boolean;
   onCreate?(): void;
-  onCancel?(): void;
+  onEdit?(): void;
 };
 
 export const TaskForm = observer((props: TaskFormProps) => {
-  const { data, onCancel } = props;
+  const { data, isEditing } = props;
 
   const [task, setTask] = useState<TaskDTO>(data ?? TASK_DEFAULT);
 
@@ -42,6 +43,11 @@ export const TaskForm = observer((props: TaskFormProps) => {
   const onCreate = async () => {
     await tasks.addTask(task);
     props.onCreate?.();
+  };
+
+  const onEdit = async () => {
+    await tasks.updateTask(task);
+    props.onEdit?.();
   };
 
   useEffect(() => {
@@ -81,11 +87,11 @@ export const TaskForm = observer((props: TaskFormProps) => {
       </Button>
       <View style={styles.actions}>
         <Button
-          text={'Create'}
+          text={isEditing ? 'Edit' : 'Create'}
           containerStyle={{
             backgroundColor: colors.success,
           }}
-          onPress={onCreate}
+          onPress={isEditing ? onEdit : onCreate}
         >
           <View style={{ width: 30, height: 30 }}>
             <PlusIcon color={colors.white} />

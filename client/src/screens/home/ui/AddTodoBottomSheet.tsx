@@ -8,6 +8,7 @@ import { TaskDTO } from '@/shared/api/tasks/types';
 
 type AddTodoBottomSheetProps = {
   data?: TaskDTO;
+  isEditing?: boolean;
   onClose?(): void;
 };
 
@@ -17,17 +18,21 @@ export const AddTodoBottomSheet = forwardRef<
   AddTodoBottomSheetRef,
   AddTodoBottomSheetProps
 >((props, ref) => {
-  const { data, onClose } = props;
+  const { data, isEditing, onClose } = props;
 
   const { colors } = useTheme();
 
   const bottomSheet = useRef<BottomSheet>(null);
 
-  const onCreate = () => {
+  const onTaskCreate = () => {
     bottomSheet.current?.close();
   };
 
-  const onChange = (i: number) => {
+  const onTaskEdit = () => {
+    bottomSheet.current?.close();
+  };
+
+  const onBottomSheetChange = (i: number) => {
     if (i === -1) onClose?.();
   };
 
@@ -43,7 +48,7 @@ export const AddTodoBottomSheet = forwardRef<
       backgroundStyle={{
         backgroundColor: colors.card,
       }}
-      onChange={onChange}
+      onChange={onBottomSheetChange}
     >
       <BottomSheetView
         style={[
@@ -53,7 +58,12 @@ export const AddTodoBottomSheet = forwardRef<
           },
         ]}
       >
-        <TaskForm data={data} onCreate={onCreate} />
+        <TaskForm
+          data={data}
+          isEditing={isEditing}
+          onCreate={onTaskCreate}
+          onEdit={onTaskEdit}
+        />
       </BottomSheetView>
     </BottomSheet>
   );

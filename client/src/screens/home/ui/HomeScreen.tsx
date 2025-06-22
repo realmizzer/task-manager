@@ -119,6 +119,7 @@ export const HomeScreen = observer(() => {
       <AddTodoBottomSheet
         ref={addTodoRef}
         data={selectedTodo}
+        isEditing={selectedTodo !== undefined}
         onClose={onCloseAddTodo}
       />
 
