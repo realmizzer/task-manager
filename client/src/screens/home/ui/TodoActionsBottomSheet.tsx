@@ -32,7 +32,7 @@ export const TodoActionsBottomSheet = forwardRef<
 
   const onDelete = () => {
     bottomSheet.current?.close();
-    props.onEdit?.();
+    props.onDelete?.();
   };
 
   return (

@@ -50,8 +50,12 @@ export const HomeScreen = observer(() => {
     addTodoRef.current?.expand();
   };
 
-  const onDeleteTodo = () => {
-    console.log('delete');
+  const onDeleteTodo = async () => {
+    if (!selectedTodo?._id) {
+      console.error('No Task ID on delete');
+      return;
+    }
+    await tasks.deleteTask(selectedTodo._id);
   };
 
   // === Add Task Bottom sheet ===

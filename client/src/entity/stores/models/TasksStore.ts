@@ -30,6 +30,17 @@ export class TasksStore {
     }
   };
 
+  deleteTask = async (id: string) => {
+    try {
+      const response = await tasksApi.deleteTask(id);
+      if (response.status === 200) {
+        this.tasks = this.tasks.filter(t => t._id !== id);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   getAllTasks = async () => {
     try {
       const response = await tasksApi.getAllTasks();

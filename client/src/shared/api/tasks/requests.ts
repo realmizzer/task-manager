@@ -8,6 +8,9 @@ export const tasksApi = {
   updateTask(data: TaskDTO) {
     return api.put<TaskDTO[]>(`/api/tasks/${data._id}`, data, {});
   },
+  deleteTask(id: string) {
+    return api.delete<TaskDTO[]>(`/api/tasks/${id}`);
+  },
   getAllTasks() {
     return api.get<TaskDTO[]>(`/api/tasks`);
   },
