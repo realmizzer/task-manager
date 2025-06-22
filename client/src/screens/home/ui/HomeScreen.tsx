@@ -37,6 +37,14 @@ export const HomeScreen = observer(() => {
     todoActionsRef.current?.expand();
   };
 
+  const onCheckMarkPress = async (task: TaskDTO) => {
+    // todo: a task completion method
+    await tasks.updateTask({
+      ...task,
+      isCompleted: !task.isCompleted,
+    });
+  };
+
   // === Card Actions Bottom sheet ===
   const onEditTodo = () => {
     addTodoRef.current?.expand();
@@ -80,7 +88,11 @@ export const HomeScreen = observer(() => {
         <FlashList
           data={tasks.tasks}
           renderItem={({ item }) => (
-            <TaskCard onLongPress={onLongPress} data={item} />
+            <TaskCard
+              data={item}
+              onCheckMarkPress={onCheckMarkPress}
+              onLongPress={onLongPress}
+            />
           )}
           ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
         />

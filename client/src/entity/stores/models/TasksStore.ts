@@ -1,6 +1,6 @@
-import { TaskDTO } from '@/shared/api/tasks/types.ts';
 import { makeAutoObservable } from 'mobx';
-import { tasksApi } from '@/shared/api/tasks/requests.ts';
+import { TaskDTO } from '@/shared/api/tasks/types';
+import { tasksApi } from '@/shared/api/tasks/requests';
 
 export class TasksStore {
   tasks: TaskDTO[] = [];
@@ -13,6 +13,20 @@ export class TasksStore {
     const response = await tasksApi.addTask(task);
     if (response.status === 200) {
       this.tasks = [...this.tasks, task];
+    }
+  };
+
+  updateTask = async (task: TaskDTO) => {
+    try {
+      const response = await tasksApi.updateTask(task);
+      if (response.status === 200) {
+        this.tasks = this.tasks.map(t => {
+          if (t._id === task._id) return { ...t, ...response.data };
+          return t;
+        });
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 

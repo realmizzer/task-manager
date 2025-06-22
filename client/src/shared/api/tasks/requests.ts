@@ -5,6 +5,9 @@ export const tasksApi = {
   addTask(data: TaskDTO) {
     return api.post<TaskDTO[]>(`/api/tasks`, data);
   },
+  updateTask(data: TaskDTO) {
+    return api.put<TaskDTO[]>(`/api/tasks/${data._id}`, data, {});
+  },
   getAllTasks() {
     return api.get<TaskDTO[]>(`/api/tasks`);
   },

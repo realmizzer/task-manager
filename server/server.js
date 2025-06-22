@@ -17,7 +17,6 @@ mongoose.connect('mongodb://localhost:27017/task-manager', {
 
 // === SCHEMAS  ===
 const taskSchema = new mongoose.Schema({
-  id: Number,
   title: String,
   description: String,
   createdAt: Number,

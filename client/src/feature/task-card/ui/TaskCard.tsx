@@ -12,6 +12,7 @@ type TodoCardProps = {
   data: PartialTodoDTO;
   onPress?(todo: PartialTodoDTO): void;
   onLongPress?(todo: PartialTodoDTO): void;
+  onCheckMarkPress?(todo: PartialTodoDTO): void;
 };
 
 export const TaskCard = (props: TodoCardProps) => {
@@ -25,6 +26,10 @@ export const TaskCard = (props: TodoCardProps) => {
 
   const onLongPress = () => {
     props.onLongPress?.(data);
+  };
+
+  const onCheckMarkPress = () => {
+    props.onCheckMarkPress?.(data);
   };
 
   return (
@@ -69,7 +74,10 @@ export const TaskCard = (props: TodoCardProps) => {
           {data.until && <DateTime date={data.until} />}
         </View>
       </View>
-      <CheckMark checked={data.isCompleted ?? false} />
+      <CheckMark
+        checked={data.isCompleted ?? false}
+        onPress={onCheckMarkPress}
+      />
     </TouchableOpacity>
   );
 };
