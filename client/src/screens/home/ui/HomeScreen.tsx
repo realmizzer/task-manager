@@ -186,13 +186,13 @@ export const HomeScreen = observer(() => {
         style={[
           styles.addButton,
           {
-            backgroundColor: colors.card,
+            backgroundColor: colors.success,
           },
         ]}
         activeOpacity={0.8}
         onPress={onPressAddTodo}
       >
-        <PlusIcon color={colors.description} />
+        <PlusIcon color={colors.white} />
       </TouchableOpacity>
 
       {/* Add task */}
