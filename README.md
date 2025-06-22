@@ -3,10 +3,24 @@
 ## Environment
 
 ```
+# front
 node v24.2.0
 npm 11.3.0
+
+# server
 mongodb 8.0.10
+
+# android
+openjdk 21.0.4 2024-07-16 LTS
+OpenJDK Runtime Environment Temurin-21.0.4+7 (build 21.0.4+7-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.4+7 (build 21.0.4+7-LTS, mixed mode)
+Android Studio 2024.2.2
+
+# ios
 ruby 2.6.10p210
+XCode 16.1
+
+# others
 WebStorm IDE 2024.1.2
 ```
 
