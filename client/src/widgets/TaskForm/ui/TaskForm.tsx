@@ -41,12 +41,17 @@ export const TaskForm = observer((props: TaskFormProps) => {
   };
 
   const onCreate = async () => {
-    await tasks.addTask(task);
+    await tasks.addTask({
+      ...task,
+      until: Date.now(),
+    });
+    setTask(TASK_DEFAULT);
     props.onCreate?.();
   };
 
   const onEdit = async () => {
     await tasks.updateTask(task);
+    setTask(TASK_DEFAULT);
     props.onEdit?.();
   };
 
