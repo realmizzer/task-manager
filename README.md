@@ -6,6 +6,7 @@
 node v24.2.0
 npm 11.3.0
 mongodb 8.0.10
+ruby 2.6.10p210
 WebStorm IDE 2024.1.2
 ```
 
