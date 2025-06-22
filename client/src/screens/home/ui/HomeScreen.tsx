@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { observer } from 'mobx-react';
 import { FlashList } from '@shopify/flash-list';
@@ -8,17 +8,21 @@ import { AddTodoBottomSheet } from './AddTodoBottomSheet';
 import { TodoActionsBottomSheet } from './TodoActionsBottomSheet';
 import { TodoFilter } from './TodoFilter';
 import { TaskCard } from '@/feature/task-card';
-import { TaskDTO } from '@/shared/api/tasks/types.ts';
+import { TaskDTO, TasksFiltersDTO } from '@/shared/api/tasks/types.ts';
 import { useTheme } from '@/shared/theme/useTheme';
 import { PlusIcon } from '@/shared/ui/icons/PlusIcon';
 import { isIOS } from '@/shared/helpers/isIOS';
 import { ExclamationMarkIcon } from '@/shared/ui/icons/ExclamationMarkIcon';
 import { TodoIcon } from '@/shared/ui/icons/TodoIcon';
 import { useStores } from '@/entity/stores/lib/useStores.ts';
+import { moderateScale } from 'react-native-size-matters';
 
 export const HomeScreen = observer(() => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTodo, setSelectedTodo] = useState<TaskDTO>();
+  const [activeFilter, setActiveFilter] = useState<TasksFiltersDTO | undefined>(
+    undefined,
+  );
 
   const addTodoRef = useRef<BottomSheet>(null);
   const todoActionsRef = useRef<BottomSheet>(null);
@@ -65,11 +69,18 @@ export const HomeScreen = observer(() => {
 
   // === Filters ===
   const onPressImportantFilter = async () => {
-    setIsLoading(true);
-    await tasks.getAllImportantTasks().finally(() => setIsLoading(false));
+    setActiveFilter(prev => {
+      if (prev === 'important') return undefined;
+      return 'important';
+    });
   };
 
-  const onPressDefaultFilter = () => {};
+  const onPressUncompletedFilter = () => {
+    setActiveFilter(prev => {
+      if (prev === 'uncompleted') return undefined;
+      return 'uncompleted';
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -82,24 +93,79 @@ export const HomeScreen = observer(() => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
+
+        const options = activeFilter
+          ? {
+              filters: [activeFilter],
+            }
+          : undefined;
+
+        await tasks.getAllTasks(options);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [activeFilter]);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.container}>
+        <View style={styles.title}>
+          <Text
+            style={[
+              styles.appName,
+              {
+                color: colors.text,
+              },
+            ]}
+          >
+            Task Manager
+          </Text>
+          <Text
+            style={[
+              styles.author,
+              {
+                color: colors.hint,
+              },
+            ]}
+          >
+            (by Maxim Nikolaev «realmizzer»)
+          </Text>
+        </View>
         <View style={styles.filters}>
           <TodoFilter
-            icon={<ExclamationMarkIcon />}
             title={'Important'}
+            icon={
+              <ExclamationMarkIcon
+                color={
+                  activeFilter === 'important' ? colors.white : colors.black
+                }
+              />
+            }
+            isActive={activeFilter === 'important'}
             count={tasks.info.importantTasksCount}
             onPress={onPressImportantFilter}
           />
           <TodoFilter
-            icon={<TodoIcon />}
-            title={'Default'}
-            count={tasks.info.defaultTasksCount}
-            onPress={onPressDefaultFilter}
+            title={'Uncompleted'}
+            icon={
+              <TodoIcon
+                color={
+                  activeFilter === 'uncompleted' ? colors.white : colors.black
+                }
+              />
+            }
+            isActive={activeFilter === 'uncompleted'}
+            count={tasks.info.uncompletedTasksCount}
+            onPress={onPressUncompletedFilter}
           />
         </View>
         <FlashList
+          estimatedItemSize={127}
           data={tasks.data}
           renderItem={({ item }) => (
             <TaskCard
@@ -148,6 +214,20 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: 1,
     padding: 8,
+  },
+  title: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginBottom: 32,
+  },
+  appName: {
+    fontWeight: 600,
+    fontSize: moderateScale(24),
+  },
+  author: {
+    marginLeft: 8,
+    fontSize: moderateScale(10),
+    marginBottom: 4,
   },
   filters: {
     flexDirection: 'row',

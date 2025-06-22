@@ -11,6 +11,6 @@ export const TASK_DEFAULT: TaskDTO = {
 };
 
 export const TASK_INFO_DEFAULT: TasksInfoDTO = {
-  defaultTasksCount: 0,
   importantTasksCount: 0,
+  uncompletedTasksCount: 0,
 };

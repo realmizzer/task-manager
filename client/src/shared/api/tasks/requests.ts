@@ -1,5 +1,9 @@
 import { api } from '@/shared/api/config/instance.ts';
-import { TaskDTO, TasksInfoDTO } from '@/shared/api/tasks/types.ts';
+import {
+  TaskDTO,
+  TasksFiltersDTO,
+  TasksInfoDTO,
+} from '@/shared/api/tasks/types.ts';
 
 export const tasksApi = {
   addTask(data: TaskDTO) {
@@ -11,11 +15,13 @@ export const tasksApi = {
   deleteTask(id: string) {
     return api.delete<{ message: string }>(`/api/tasks/${id}`);
   },
-  getAllTasks() {
-    return api.get<TaskDTO[]>(`/api/tasks`);
-  },
-  getAllImportantTasks() {
-    return api.get<TaskDTO[]>(`/api/tasks/important`);
+  getAllTasks(filters?: TasksFiltersDTO[]) {
+    return api.get<TaskDTO[]>(`/api/tasks`, {
+      method: 'get',
+      params: {
+        filters: filters?.join(','),
+      },
+    });
   },
   getTasksInfo() {
     return api.get<TasksInfoDTO>(`/api/tasks/info`);

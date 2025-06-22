@@ -12,5 +12,7 @@ export type TaskDTO = {
 
 export type TasksInfoDTO = {
   importantTasksCount: number;
-  defaultTasksCount: number;
+  uncompletedTasksCount: number;
 };
+
+export type TasksFiltersDTO = 'important' | 'uncompleted';

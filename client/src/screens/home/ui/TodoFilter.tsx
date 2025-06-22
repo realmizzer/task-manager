@@ -9,19 +9,25 @@ import {
 import { useTheme } from '@/shared/theme/useTheme.ts';
 import { moderateScale } from 'react-native-size-matters';
 import { ReactNode } from 'react';
+import { opacify } from 'polished';
 
 type TodoFilterProps = {
   title: string;
   count: number;
   icon: ReactNode;
+  isActive?: boolean;
   containerStyle?: StyleProp<ViewStyle>;
   onPress?(): void;
 };
 
 export const TodoFilter = (props: TodoFilterProps) => {
-  const { title, icon, count, containerStyle, onPress } = props;
+  const { title, icon, count, isActive, containerStyle } = props;
 
   const { colors } = useTheme();
+
+  const onPress = () => {
+    props.onPress?.();
+  };
 
   return (
     <TouchableOpacity
@@ -29,7 +35,7 @@ export const TodoFilter = (props: TodoFilterProps) => {
       style={[
         styles.container,
         {
-          backgroundColor: colors.card,
+          backgroundColor: isActive ? colors.primary : colors.card,
         },
         containerStyle,
       ]}
@@ -39,12 +45,23 @@ export const TodoFilter = (props: TodoFilterProps) => {
         <View style={{ height: 30, width: 30 }}>{icon}</View>
       </View>
       <View style={styles.bottom}>
-        <Text style={styles.count}>{count}</Text>
+        <Text
+          style={[
+            styles.count,
+            {
+              color: isActive ? colors.white : colors.black,
+            },
+          ]}
+        >
+          {count}
+        </Text>
         <Text
           style={[
             styles.title,
             {
-              color: colors.hint,
+              color: isActive
+                ? opacify(-0.3, colors.white)
+                : opacify(-0.3, colors.black),
             },
           ]}
         >
