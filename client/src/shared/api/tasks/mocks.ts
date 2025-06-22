@@ -1,10 +1,16 @@
-import { TaskDTO } from './types.ts';
+import { TaskDTO, TasksInfoDTO } from './types.ts';
 
 export const TASK_DEFAULT: TaskDTO = {
+  _id: '-42',
   title: '',
   description: '',
-  createdAt: Date.now().toString(),
-  until: Date.now().toString(),
+  createdAt: Date.now(),
+  until: Date.now(),
   isImportant: false,
   isCompleted: false,
+};
+
+export const TASK_INFO_DEFAULT: TasksInfoDTO = {
+  defaultTasksCount: 0,
+  importantTasksCount: 0,
 };

@@ -64,12 +64,22 @@ export const HomeScreen = observer(() => {
   };
 
   // === Filters ===
-  const onPressImportantFilter = () => {};
+  const onPressImportantFilter = async () => {
+    setIsLoading(true);
+    await tasks.getAllImportantTasks().finally(() => setIsLoading(false));
+  };
 
   const onPressDefaultFilter = () => {};
 
   useEffect(() => {
-    tasks.getAllTasks().finally(() => setIsLoading(false));
+    (async () => {
+      try {
+        await tasks.getAllTasks();
+        await tasks.getTasksInfo();
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
   return (
@@ -79,18 +89,18 @@ export const HomeScreen = observer(() => {
           <TodoFilter
             icon={<ExclamationMarkIcon />}
             title={'Important'}
-            count={6}
+            count={tasks.info.importantTasksCount}
             onPress={onPressImportantFilter}
           />
           <TodoFilter
             icon={<TodoIcon />}
             title={'Default'}
-            count={6}
+            count={tasks.info.defaultTasksCount}
             onPress={onPressDefaultFilter}
           />
         </View>
         <FlashList
-          data={tasks.tasks}
+          data={tasks.data}
           renderItem={({ item }) => (
             <TaskCard
               data={item}

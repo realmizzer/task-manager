@@ -9,3 +9,8 @@ export type TaskDTO = {
   isImportant: boolean;
   isCompleted: boolean;
 };
+
+export type TasksInfoDTO = {
+  importantTasksCount: number;
+  defaultTasksCount: number;
+};

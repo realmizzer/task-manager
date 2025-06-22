@@ -35,10 +35,20 @@ app.get('/api/tasks', async (req, res) => {
   res.send(tasks);
 });
 
-// Get only an important task
+// Get only important tasks
 app.get('/api/tasks/important', async (req, res) => {
   const tasks = await Task.find({isImportant: true});
   res.send(tasks);
+});
+
+// Get an additional info about tasks
+app.get('/api/tasks/info', async (req, res) => {
+  const importantTasks = await Task.find({isImportant: true});
+  const defaultTasks = await Task.find({isImportant: false});
+  res.send({
+    importantTasksCount: importantTasks.length,
+    defaultTasksCount: defaultTasks.length,
+  });
 });
 
 // Add a new task
