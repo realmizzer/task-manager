@@ -40,3 +40,10 @@ WebStorm IDE 2024.1.2
 ![Important Tasks](/readme/important_tasks.png?raw=true)
 ![Uncompleted Tasks](/readme/uncompleted_tasks.png?raw=true)
 ![Edit Task](/readme/edit_task.png?raw=true)
+
+### todo
+
+- Splash Screen
+- App Logo
+- Animations
+- Blackout for the bottom sheets
