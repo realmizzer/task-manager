@@ -14,7 +14,7 @@ mongodb 8.0.10
 openjdk 21.0.4 2024-07-16 LTS
 OpenJDK Runtime Environment Temurin-21.0.4+7 (build 21.0.4+7-LTS)
 OpenJDK 64-Bit Server VM Temurin-21.0.4+7 (build 21.0.4+7-LTS, mixed mode)
-Android Studio 2024.2.2
+Android Studio 2024.3.2
 
 # ios
 ruby 2.6.10p210
