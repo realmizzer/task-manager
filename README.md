@@ -47,5 +47,4 @@ WebStorm IDE 2024.1.2
 - App Logo
 - Animations
 - Blackout for the bottom sheets
-- Android Network Connection
 - Bug: TaskForm contains previous data
